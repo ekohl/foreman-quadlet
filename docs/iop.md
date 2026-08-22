@@ -307,8 +307,8 @@ The engine maps `console.redhat.com` to `127.0.0.1` via container `/etc/hosts` t
 
 When IOP is enabled, `foremanctl backup` includes dumps of all five IOP databases:
 
-- `iop_advisor.dump`
-- `iop_inventory.dump`
-- `iop_remediation.dump`
-- `iop_vmaas.dump`
-- `iop_vulnerability.dump`
+- `iop_advisor.pgc`
+- `iop_inventory.pgc`
+- `iop_remediation.pgc`
+- `iop_vmaas.pgc`
+- `iop_vulnerability.pgc`

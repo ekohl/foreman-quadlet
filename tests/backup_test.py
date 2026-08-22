@@ -115,7 +115,7 @@ def test_database_dumps_created(server, backup_result, expected_databases, backu
 
     for database_name in expected_databases:
         actual_db_name = database_mapping.get(database_name, database_name)
-        dump_file = f"{actual_db_name}.dump"
+        dump_file = f"{actual_db_name}.pgc"
         dump_path = f"{backup_dir}/{dump_file}"
         file_check = server.file(dump_path)
         assert file_check.exists, f"Database dump {dump_file} should exist at {dump_path}"

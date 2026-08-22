@@ -1,26 +1,21 @@
 ---
 - name: Dump databases
-  ansible.builtin.command:
-    cmd: >
-      pg_dump
-      --host={{ item.host }}
-      --port={{ item.port }}
-      --username={{ item.user }}
-      --format=custom
-      --file={{ backup_dir_full }}/{{ item.database }}.dump
-      {{ item.database }}
-  environment:
-    PGPASSWORD: "{{ item.password }}"
+  community.postgresql.postgresql_db:
+    name: "{{ item.database }}"
+    state: dump
+    login_host: "{{ item.host }}"
+    login_port: "{{ item.port }}"
+    login_user: "{{ item.user }}"
+    login_password: "{{ item.password }}"
+    target: "{{ backup_dir_full }}/{{ item.database }}.pgc"
   loop: "{{ backup_databases_config }}"
-  no_log: true
   loop_control:
     label: "{{ item.name }}"
-  changed_when: true
 
 - name: Gather database dump files
   ansible.builtin.find:
     paths: "{{ backup_dir_full }}"
-    patterns: "*.dump"
+    patterns: "*.pgc"
   register: backup_files
 
 - name: Display backup summary

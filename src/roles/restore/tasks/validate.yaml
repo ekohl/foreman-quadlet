@@ -64,7 +64,7 @@
   block:
     - name: Verify database dump files exist
       ansible.builtin.stat:
-        path: "{{ backup_dir }}/{{ restore_backup_metadata.database_mapping[item] }}.dump"
+        path: "{{ backup_dir }}/{{ restore_backup_metadata.database_mapping[item] }}.pgc"
       register: restore_dump_files_check
       failed_when: not restore_dump_files_check.stat.exists
       loop: "{{ restore_backup_metadata.databases }}"
@@ -78,7 +78,7 @@
 
     - name: Get total size of database dumps
       ansible.builtin.shell:
-        cmd: set -o pipefail && du -sB1 {{ backup_dir }}/*.dump 2>/dev/null | awk '{sum+=$1} END {print int(sum/1024/1024/1024)+1}'
+        cmd: set -o pipefail && du -sB1 {{ backup_dir }}/*.pgc 2>/dev/null | awk '{sum+=$1} END {print int(sum/1024/1024/1024)+1}'
         executable: /bin/bash
       register: restore_dumps_size
       changed_when: false

@@ -23,7 +23,7 @@ foremanctl backup /var/backup
 
 This creates a timestamped backup directory at `/var/backup/foreman-backup-YYYYMMDDTHHMMSS/` containing:
 
-- Database dumps (`.dump` files in PostgreSQL custom format)
+- Database dumps (`.pgc` files in PostgreSQL custom format)
 - foremanctl state archive (`foremanctl-state.tar.gz`)
 - Pulp content archive (`pulp-content.tar.gz`, unless `--skip-pulp-content`)
 - Backup metadata (`metadata.yml`)
@@ -155,7 +155,7 @@ For internal databases (`--database-mode internal`), the backup verifies that al
 Each database is dumped using `pg_dump`:
 
 ```bash
-pg_dump --host=<host> --port=<port> --username=<user> --format=custom --file=<backup_dir>/<name>.dump <database>
+pg_dump --host=<host> --port=<port> --username=<user> --format=custom --file=<backup_dir>/<name>.pgc <database>
 ```
 
 For external databases, dumps connect to the external host. For internal databases, dumps connect to the locally-running PostgreSQL instance.
@@ -192,7 +192,7 @@ ls -lh /var/backup/foreman-backup-*/
 cat /var/backup/foreman-backup-*/metadata.yml
 
 # Verify database dumps exist
-ls -lh /var/backup/foreman-backup-*/*.dump
+ls -lh /var/backup/foreman-backup-*/*.pgc
 ```
 
 ## Retention and Rotation
@@ -231,7 +231,7 @@ foremanctl restore /var/backup/foreman-backup-20260617T104115
 
 This restores from the specified backup directory, which must contain:
 
-- Database dumps (`.dump` files)
+- Database dumps (`.pgc` files)
 - foremanctl state archive (`foremanctl-state.tar.gz`)
 - Backup metadata (`metadata.yml`)
 - Optionally: Pulp content archive (`pulp-content.tar.gz`)
